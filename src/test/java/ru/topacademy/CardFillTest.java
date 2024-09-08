@@ -136,16 +136,18 @@ public class CardFillTest {
         $("[data-test-id=phone] .input__sub").shouldHave(exactText("Поле обязательно для заполнения"), Duration.ofSeconds(20));
     }
 
+    @Test
+    public void testNotCheckBox() {
+        String planningDate = createDate(7, "dd.MM.yyyy");
 
-
-
-
-
-
-
-
-
-
+        $("[data-test-id=city] input").setValue("Екатеринбург");
+        $(".calendar-input__custom-control input").doubleClick().sendKeys(planningDate);
+        $("[data-test-id=name] input").setValue("Кузьма Петров-Водкин");
+        $("[data-test-id=phone] input").setValue("+79000000000");
+        $(".button").click();
+        $("[data-test-id=agreement].input_invalid").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных"),
+                Duration.ofSeconds(20));
+    }
 
 
 
