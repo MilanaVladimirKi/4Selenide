@@ -74,6 +74,19 @@ public class CardFillTest {
     }
 
     @Test
+    public void testWrongDate() {
+        String planningDate = createDate(-10, "dd.MM.yyyy");
+
+        $(".calendar-input__custom-control input").doubleClick().sendKeys(planningDate);
+        $("[data-test-id=city] input").setValue("Екатеринбург");
+        $("[data-test-id=name] input").setValue("Кузьма Петров-Водкин");
+        $("[data-test-id=phone] input").setValue("+79000000000");
+        $(".checkbox__box").click();
+        $(".button").click();
+        $("[data-test-id=date] .input_invalid .input__sub").shouldHave(exactText("Заказ на выбранную дату невозможен"), Duration.ofSeconds(20));
+    }
+
+    @Test
     public void testNoValName() {
         String planningDate = createDate(11, "dd.MM.yyyy");
 
@@ -149,10 +162,11 @@ public class CardFillTest {
                 Duration.ofSeconds(20));
     }
 
-
-
-
-
-
-
+    @Test
+    public void testSelectCity() {
+        $("[data-test-id=city] input").setValue("Ек");
+        $(".popup__inner").shouldBe(exist, Duration.ofSeconds(5));
+        $$(".menu-item").find(text("Екатеринбург")).click();
+        $("[data-test-id=city] input").shouldHave(value("Екатеринбург"));
+    }
 }
